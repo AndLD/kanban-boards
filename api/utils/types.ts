@@ -14,5 +14,3 @@ export type Error = {
 }
 
 export type Any = { [key: string]: any }
-
-export type ID = string
