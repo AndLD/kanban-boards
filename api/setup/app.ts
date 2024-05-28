@@ -24,16 +24,9 @@ export function setupApp() {
     app.use(cors(corsOptions as any))
     app.use(loggerMiddleware)
 
-    app.use(
-        (
-            err: ErrorHandler,
-            req: Request,
-            res: Response,
-            next: NextFunction
-        ) => {
-            handleError(err, res)
-        }
-    )
+    app.use((err: ErrorHandler, req: Request, res: Response, next: NextFunction) => {
+        handleError(err, res)
+    })
 
     return app
 }
