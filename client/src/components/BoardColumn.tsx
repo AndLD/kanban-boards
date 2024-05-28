@@ -1,9 +1,6 @@
 import { ReactNode } from 'react'
 
-export default function BoardColumn(props: {
-    title: string
-    children?: ReactNode | ReactNode[]
-}) {
+export default function BoardColumn(props: { title: string; children?: ReactNode | ReactNode[] }) {
     return (
         <div>
             <div
@@ -18,8 +15,8 @@ export default function BoardColumn(props: {
             </div>
             <div
                 style={{
-                    minHeight: '70vh',
-                    maxHeight: '70vh',
+                    minHeight: '65vh',
+                    maxHeight: '65vh',
                     width: '20vw',
                     background: 'lightgray',
                     overflowY: 'scroll'

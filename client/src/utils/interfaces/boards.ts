@@ -1,4 +1,5 @@
 import { ID } from '../types'
+import { ITask } from './tasks'
 
 export interface IBoard {
     _id: ID
@@ -11,4 +12,13 @@ export interface IBoardPostBody {
 
 export interface IBoardPutBody {
     name: string
+}
+
+export interface IFetchBoardResponse {
+    board: IBoard
+    tasks: ITask[]
+}
+
+export interface IBoardDeleteResponse {
+    _id: ID
 }

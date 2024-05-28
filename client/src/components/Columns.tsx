@@ -1,27 +1,21 @@
-import { ID } from '../../../shared/types'
-import { useEffect, useState } from 'react'
 import AddTaskBtn from './AddTaskBtn'
 import BoardColumn from './BoardColumn'
 import Task from './Task'
+import { useAppSelector } from '../hooks/store'
+import TaskModal from './TaskModal'
 
 export default function Columns() {
-    const [boardId, setBoardId] = useState<ID | null>(null)
+    const tasks = useAppSelector((state) => state.tasksReducer.tasks)
 
-    useEffect(() => {
-        const boardId = new URL(location.toString()).searchParams.get('boardId')
+    const tasksByStatus = {
+        ToDo: [],
+        InProgress: [],
+        Done: []
+    }
 
-        if (boardId) {
-            setBoardId(boardId)
-        }
-    }, [])
-
-    // fetch board with tasks here
-
-    useEffect(() => {
-        if (boardId) {
-            // launch fetch
-        }
-    }, [boardId])
+    tasks.forEach((task) =>
+        tasksByStatus[task.status].push(<Task key={task._id} task={task} />)
+    )
 
     return (
         <div
@@ -31,20 +25,14 @@ export default function Columns() {
             }}
         >
             <BoardColumn title="To Do">
-                <Task
-                    task={{
-                        _id: 'dghghfhsyvetjg',
-                        title: 'My super long title wow yep Very long task name',
-                        description:
-                            'Test big description, task definition, hard, very hard task than. What nice pamphlet here I can see.',
-                        createdAt: 3553462341356,
-                        status: 'ToDo'
-                    }}
-                />
+                {tasksByStatus.ToDo}
                 <AddTaskBtn />
             </BoardColumn>
-            <BoardColumn title="In Progress"></BoardColumn>
-            <BoardColumn title="Done"></BoardColumn>
+            <BoardColumn title="In Progress">
+                {tasksByStatus.InProgress}
+            </BoardColumn>
+            <BoardColumn title="Done">{tasksByStatus.Done}</BoardColumn>
+            <TaskModal />
         </div>
     )
 }
