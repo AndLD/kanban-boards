@@ -4,7 +4,7 @@ dotenv.config({ path: `.env.${process.env.NODE_ENV || 'development'}` })
 import { getLogger } from '../utils/logger'
 import { setupServer } from '../setup/server'
 import { environment } from '../utils/constants'
-import { dbService, mongoClient } from '../services/db'
+import { dbService } from '../services/db'
 import packageJson from '../package.json'
 
 let server: httpServer.Server | null = null
@@ -29,5 +29,5 @@ export async function stopApp() {
         server.close()
     }
 
-    await mongoClient.close()
+    await dbService.close()
 }

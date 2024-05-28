@@ -7,15 +7,18 @@ export let db: Db
 const logger = getLogger('services/db')
 
 async function init() {
-    mongoClient = new MongoClient(
-        process.env.MONGO_DB_URI || 'mongodb://localhost:27017'
-    )
+    mongoClient = new MongoClient(process.env.MONGO_DB_URI || 'mongodb://localhost:27017')
     await mongoClient.connect()
     db = mongoClient.db(process.env.MONGO_DB_NAME || 'kanban-boards')
 
     logger.info('MongoDB successfully connected')
 }
 
+async function close() {
+    await mongoClient.close()
+}
+
 export const dbService = {
-    init
+    init,
+    close
 }
