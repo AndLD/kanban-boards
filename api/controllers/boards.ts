@@ -3,30 +3,13 @@ import { db } from '../services/db'
 import { ObjectId } from 'mongodb'
 import { ErrorHandler } from '../middlewares/ErrorHandler'
 import { entities } from '../utils/constants'
+import { boardsService } from '../services/boards'
 
 async function getOneById(req: Request, res: Response, next: NextFunction) {
     try {
         const id = req.params.id
 
-        const board = await db.collection(entities.BOARDS).findOne({ _id: new ObjectId(id) })
-
-        if (!board) {
-            return res.sendStatus(404)
-        }
-
-        const result: any = {
-            board
-        }
-
-        result.tasks = db.collection(entities.TASKS).find({ boardId: board._id.toString() }).toArray()
-
-        const promiseResults = await Promise.all(Object.values(result))
-
-        const keys = Object.keys(result)
-
-        for (let i = 0; i < keys.length; i++) {
-            result[keys[i]] = promiseResults[i]
-        }
+        const result = await boardsService.getBoardWithTasks(id)
 
         res.json(result)
     } catch (error) {
@@ -36,8 +19,9 @@ async function getOneById(req: Request, res: Response, next: NextFunction) {
 
 async function post(req: Request, res: Response, next: NextFunction) {
     try {
-        const result = await db.collection(entities.BOARDS).insertOne(req.body)
-        res.json({ _id: result.insertedId, ...req.body })
+        const result = await boardsService.addBoard(req.body)
+
+        res.json(result)
     } catch (error) {
         next(error)
     }
@@ -45,19 +29,9 @@ async function post(req: Request, res: Response, next: NextFunction) {
 
 async function put(req: Request, res: Response, next: NextFunction) {
     try {
-        const id = req.params.id
+        const result = await boardsService.editBoard(req.params.id, req.body)
 
-        const updateResult = await db
-            .collection(entities.BOARDS)
-            .updateOne({ _id: new ObjectId(id) }, { $set: req.body })
-
-        if (updateResult.matchedCount === 0) {
-            throw new ErrorHandler(404, `Board with id: ${id} not found`)
-        }
-
-        const updated = await db.collection(entities.BOARDS).findOne({ _id: new ObjectId(id) })
-
-        res.json(updated)
+        res.json(result)
     } catch (error) {
         next(error)
     }
@@ -67,12 +41,7 @@ async function deleteOne(req: Request, res: Response, next: NextFunction) {
     try {
         const id = req.params.id
 
-        const result = await db.collection(entities.BOARDS).deleteOne({ _id: new ObjectId(id) })
-        if (!result.deletedCount) {
-            return res.sendStatus(404)
-        }
-
-        await db.collection(entities.TASKS).deleteMany({ boardId: id })
+        await boardsService.deleteBoardWithTasks(id)
 
         res.json({ _id: id })
     } catch (error) {

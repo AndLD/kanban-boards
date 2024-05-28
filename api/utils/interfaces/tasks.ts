@@ -17,7 +17,7 @@ export interface ITaskPostBody {
 
 export interface ITaskPost extends ITaskPostBody {
     createdAt: number
-    boardId: number
+    boardId: ID
 }
 
 export interface ITaskPutBody {
