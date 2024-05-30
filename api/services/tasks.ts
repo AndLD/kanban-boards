@@ -1,36 +1,51 @@
 import { ObjectId } from 'mongodb'
 import { ErrorHandler } from '../middlewares/ErrorHandler'
-import { entities } from '../utils/constants'
-import { ITaskPost, ITaskPostBody, ITaskPutBody } from '../utils/interfaces/tasks'
+import { Entity } from '../utils/constants'
+import { ITask, ITaskPost, ITaskPostBody, ITaskPutBody } from '../utils/interfaces/tasks'
 import { ID } from '../utils/types'
-import { db, dbService } from './db'
+import { dbService, tasksCollection } from './db'
+import { boardsService } from './boards'
 
 async function addTask(boardId: ID, task: ITaskPostBody) {
     const newTask: ITaskPost = {
         ...task,
-        createdAt: Date.now(),
+        _id: new ObjectId(),
         boardId
     }
 
-    const insertResult = await db.collection(entities.TASKS).insertOne(newTask)
+    await dbService.withTransaction(async () => {
+        await Promise.all([
+            tasksCollection.insertOne(newTask),
+            boardsService.registerTask(boardId, newTask._id!.toString())
+        ])
+    })
 
-    return { _id: insertResult.insertedId, ...newTask }
+    return newTask as ITask
 }
 
-async function editTask(id: ID, updates: ITaskPutBody) {
-    return await dbService.updateOne(entities.TASKS, id, updates)
+function editTask(taskId: ID, updates: ITaskPutBody) {
+    return dbService.updateOne(Entity.TASKS, taskId, updates) as Promise<ITask>
 }
 
-async function deleteTask(id: ID) {
-    const result = await db.collection(entities.TASKS).deleteOne({ _id: new ObjectId(id) })
+function deleteTask(boardId: ID, id: ID) {
+    return dbService.withTransaction(async () => {
+        const result = await tasksCollection.deleteOne({ _id: new ObjectId(id) })
 
-    if (!result.deletedCount) {
-        throw new ErrorHandler(404, `Board with id: ${id} not found`)
-    }
+        if (!result.deletedCount) {
+            throw new ErrorHandler(404, `Task with id: ${id} not found`)
+        }
+
+        await boardsService.unregisterTask(boardId, id)
+    })
+}
+
+function deleteTasksByBoardId(boardId: ID) {
+    return tasksCollection.deleteMany({ boardId })
 }
 
 export const tasksService = {
     addTask,
     editTask,
-    deleteTask
+    deleteTask,
+    deleteTasksByBoardId
 }

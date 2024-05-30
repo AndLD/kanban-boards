@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { IBoard } from '../utils/interfaces/boards'
 import { ID } from '../utils/types'
+import { Entity } from '../utils/constants'
 
 interface IState {
     boardId: ID
@@ -21,7 +22,7 @@ const initialState: IState = {
 }
 
 export const boardsSlice = createSlice({
-    name: 'boards',
+    name: Entity.BOARDS,
     initialState,
     reducers: {
         setBoardId(state, action: PayloadAction<ID | null>) {

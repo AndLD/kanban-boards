@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb'
 import { db } from '../services/db'
 
-let insertedDocs: any = {}
+let insertedDocs: { [collection: string]: ObjectId[] } = {}
 
 export const trackInsert = (collection: string, id: ObjectId) => {
     if (!insertedDocs[collection]) {

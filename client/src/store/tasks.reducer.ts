@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ITask } from '../utils/interfaces/tasks'
+import { Entity } from '../utils/constants'
 
 interface IState {
     tasks: ITask[]
@@ -14,7 +15,7 @@ const initialState: IState = {
 }
 
 export const tasksSlice = createSlice({
-    name: 'tasks',
+    name: Entity.TASKS,
     initialState,
     reducers: {
         setTasks(state, action: PayloadAction<ITask[]>) {

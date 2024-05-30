@@ -1,15 +1,22 @@
 import { NextFunction, Request, Response } from 'express'
-import { db } from '../services/db'
-import { ObjectId } from 'mongodb'
-import { ErrorHandler } from '../middlewares/ErrorHandler'
-import { entities } from '../utils/constants'
 import { boardsService } from '../services/boards'
+import {
+    BoardFetchParams,
+    BoardMutationParams,
+    IBoard,
+    IBoardDeleteResponse,
+    IBoardPostBody,
+    IBoardPutBody,
+    IFetchBoardResponse
+} from '../utils/interfaces/boards'
 
-async function getOneById(req: Request, res: Response, next: NextFunction) {
+async function getOneById(
+    req: Request<BoardFetchParams, IFetchBoardResponse>,
+    res: Response<IFetchBoardResponse>,
+    next: NextFunction
+) {
     try {
-        const id = req.params.id
-
-        const result = await boardsService.getBoardWithTasks(id)
+        const result = await boardsService.getBoardWithTasks(req.params.id)
 
         res.json(result)
     } catch (error) {
@@ -17,7 +24,11 @@ async function getOneById(req: Request, res: Response, next: NextFunction) {
     }
 }
 
-async function post(req: Request, res: Response, next: NextFunction) {
+async function post(
+    req: Request<BoardMutationParams, IBoard, IBoardPostBody>,
+    res: Response<IBoard>,
+    next: NextFunction
+) {
     try {
         const result = await boardsService.addBoard(req.body)
 
@@ -27,7 +38,11 @@ async function post(req: Request, res: Response, next: NextFunction) {
     }
 }
 
-async function put(req: Request, res: Response, next: NextFunction) {
+async function put(
+    req: Request<BoardMutationParams, IBoard, IBoardPutBody>,
+    res: Response<IBoard>,
+    next: NextFunction
+) {
     try {
         const result = await boardsService.editBoard(req.params.id, req.body)
 
@@ -37,7 +52,11 @@ async function put(req: Request, res: Response, next: NextFunction) {
     }
 }
 
-async function deleteOne(req: Request, res: Response, next: NextFunction) {
+async function deleteOne(
+    req: Request<BoardMutationParams, IBoardDeleteResponse>,
+    res: Response<IBoardDeleteResponse>,
+    next: NextFunction
+) {
     try {
         const id = req.params.id
 

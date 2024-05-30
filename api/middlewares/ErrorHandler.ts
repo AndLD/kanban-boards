@@ -12,10 +12,5 @@ export class ErrorHandler extends Error {
 }
 
 export const handleError = (err: ErrorHandler, res: Response) => {
-    const { statusCode, message } = err
-    res.status(statusCode).json({
-        status: false,
-        statusCode,
-        message
-    })
+    res.status(err.statusCode).json(err)
 }

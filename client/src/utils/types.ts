@@ -1,3 +1,6 @@
 export type ID = string
 
-export type TaskStatus = 'ToDo' | 'InProgress' | 'Done'
+export type Error = {
+    statusCode: number
+    message: string
+}

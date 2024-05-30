@@ -3,9 +3,10 @@ import { Form, Input, Modal } from 'antd'
 import { useForm } from 'antd/es/form/Form'
 import { useAppDispatch, useAppSelector } from '../hooks/store'
 import { boardsSlice } from '../store/boards.reducer'
-import { IBoardPostBody } from '../utils/interfaces/boards'
+import { IBoardPostBody, IBoardPutBody } from '../utils/interfaces/boards'
 import { usePostBoard, usePutBoard } from '../hooks/store/boards.api'
 import { successNotification } from '../utils/notifications'
+import { adjustBody } from '../utils/utils'
 
 export default function BoardModal() {
     const dispatch = useAppDispatch()
@@ -24,20 +25,16 @@ export default function BoardModal() {
     })
 
     const handleOk = () => {
-        form.validateFields().then(async (data: IBoardPostBody) => {
-            const body: any = {}
-
-            Object.keys(data).forEach((key) => {
-                if (data[key] !== undefined && key !== '_id') {
-                    body[key] = data[key]
-                }
-            })
+        form.validateFields().then(async (data: IBoardPostBody | IBoardPutBody) => {
+            const body = adjustBody<IBoardPostBody | IBoardPutBody>(data)
 
             form.resetFields()
-            boardToEdit ? putBoard(boardToEdit._id, body) : postBoard(body)
-        })
+            boardToEdit
+                ? putBoard(boardToEdit._id, body as IBoardPutBody)
+                : postBoard(body as IBoardPostBody)
 
-        dispatch(boardsSlice.actions.setIsModalVisible(false))
+            dispatch(boardsSlice.actions.setIsModalVisible(false))
+        })
     }
 
     const handleCancel = () => {

@@ -2,10 +2,10 @@ import { Content } from 'antd/es/layout/layout'
 import { Empty } from 'antd'
 import { useAppSelector } from './hooks/store'
 import Search from './components/Search'
-import Columns from './components/Columns'
 import LoadingScreen from './components/LoadingScreen'
 import BoardModal from './components/BoardModal'
 import Board from './components/Board'
+import TaskModal from './components/TaskModal'
 
 function App() {
     const { isLoading, board } = useAppSelector((state) => state.boardsReducer)
@@ -31,6 +31,7 @@ function App() {
             )}
 
             <BoardModal />
+            <TaskModal />
         </Content>
     )
 }

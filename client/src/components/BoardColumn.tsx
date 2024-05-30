@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
+import { Droppable } from 'react-beautiful-dnd'
 
-export default function BoardColumn(props: { title: string; children?: ReactNode | ReactNode[] }) {
+export default function BoardColumn(props: { columnKey: string; title: string; children?: ReactNode | ReactNode[] }) {
     return (
         <div>
             <div
@@ -13,28 +14,34 @@ export default function BoardColumn(props: { title: string; children?: ReactNode
             >
                 {props.title}
             </div>
-            <div
-                style={{
-                    minHeight: '65vh',
-                    maxHeight: '65vh',
-                    width: '20vw',
-                    background: 'lightgray',
-                    overflowY: 'scroll'
-                }}
-            >
-                <div
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: 20,
-                        flexDirection: 'column',
-                        padding: '20px 0'
-                    }}
-                >
-                    {props.children}
-                </div>
-            </div>
+            <Droppable key={props.columnKey} droppableId={props.columnKey}>
+                {(provided) => (
+                    <div ref={provided.innerRef} {...provided.droppableProps}>
+                        <div
+                            style={{
+                                minHeight: '65vh',
+                                maxHeight: '65vh',
+                                width: '20vw',
+                                background: 'lightgray',
+                                overflowY: 'scroll'
+                            }}
+                        >
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    flexDirection: 'column',
+                                    marginBottom: 20
+                                }}
+                            >
+                                {props.children}
+                                {provided.placeholder}
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </Droppable>
         </div>
     )
 }

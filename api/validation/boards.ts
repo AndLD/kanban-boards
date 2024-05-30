@@ -1,10 +1,3 @@
-const body = {
-    _allowedProps: ['name'],
-    name: {
-        required: true,
-        type: 'string'
-    }
-}
 const params = {
     id: {
         required: true,
@@ -14,11 +7,37 @@ const params = {
 }
 
 export const boardsSchemas = {
+    getOne: {
+        params
+    },
     post: {
-        body
+        body: {
+            _allowedProps: ['name'],
+            name: {
+                required: true,
+                type: 'string'
+            }
+        }
     },
     put: {
-        body,
+        body: {
+            _allowedProps: ['name', 'order'],
+            name: {
+                required: false,
+                type: 'string'
+            },
+            order: {
+                required: false,
+                _store: {
+                    _allowedProps: ['ToDo', 'InProgress', 'Done'],
+                    ToDo: {
+                        required: false,
+                        type: 'array',
+                        arrayElementType: 'string'
+                    }
+                }
+            }
+        },
         params
     },
     deleteOne: {
