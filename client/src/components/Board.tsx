@@ -1,11 +1,11 @@
 import BoardName from './BoardName'
-import Columns from './Columns'
+import ColumnsWrapper from './ColumnsWrapper'
 
 export default function Board() {
     return (
         <>
             <BoardName />
-            <Columns />
+            <ColumnsWrapper />
         </>
     )
 }

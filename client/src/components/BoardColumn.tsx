@@ -1,19 +1,24 @@
+import Title from 'antd/es/typography/Title'
 import { ReactNode } from 'react'
 import { Droppable } from 'react-beautiful-dnd'
 
-export default function BoardColumn(props: { columnKey: string; title: string; children?: ReactNode | ReactNode[] }) {
+export default function BoardColumn(props: {
+    columnKey: string
+    title: string
+    children?: ReactNode | ReactNode[]
+}) {
     return (
         <div>
-            <div
+            <Title
+                level={2}
                 style={{
                     fontWeight: 'bold',
                     textAlign: 'center',
-                    fontSize: 30,
-                    padding: '15px 0'
+                    paddingTop: '5px'
                 }}
             >
                 {props.title}
-            </div>
+            </Title>
             <Droppable key={props.columnKey} droppableId={props.columnKey}>
                 {(provided) => (
                     <div ref={provided.innerRef} {...provided.droppableProps}>

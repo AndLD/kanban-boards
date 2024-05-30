@@ -1,16 +1,9 @@
-import { Button, Popconfirm } from 'antd'
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { ITask } from '../utils/interfaces/tasks'
-import { useAppDispatch } from '../hooks/store'
-import { tasksSlice } from '../store/tasks.reducer'
-import { useDeleteTask } from '../hooks/store/tasks.api'
 import { Draggable } from 'react-beautiful-dnd'
+import DeleteTaskBtn from './DeleteTaskBtn'
+import EditTaskBtn from './EditTaskBtn'
 
 export default function Task({ index, task }: { index: number; task: ITask }) {
-    const dispatch = useAppDispatch()
-
-    const deleteTask = useDeleteTask()
-
     const title = task.title.length > 25 ? task.title.slice(0, 25) + '...' : task.title
 
     const description = task.description
@@ -37,25 +30,8 @@ export default function Task({ index, task }: { index: number; task: ITask }) {
                                 justifyContent: 'end'
                             }}
                         >
-                            <Button
-                                type="text"
-                                style={{ width: 45, height: 45 }}
-                                icon={<EditOutlined style={{ fontSize: 25 }} />}
-                                onClick={() => dispatch(tasksSlice.actions.setTaskToEdit(task))}
-                            />
-                            <Popconfirm
-                                title="Delete the task"
-                                description="Are you sure to delete this task?"
-                                onConfirm={() => deleteTask(task._id)}
-                                okText="Yes"
-                                cancelText="No"
-                            >
-                                <Button
-                                    type="text"
-                                    style={{ width: 45, height: 45 }}
-                                    icon={<DeleteOutlined style={{ fontSize: 25 }} />}
-                                />
-                            </Popconfirm>
+                            <EditTaskBtn task={task} />
+                            <DeleteTaskBtn taskId={task._id} />
                         </div>
                     </div>
                 </div>

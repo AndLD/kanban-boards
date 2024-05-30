@@ -4,3 +4,9 @@ export enum Entity {
     BOARDS = 'boards',
     TASKS = 'tasks'
 }
+
+export enum ColumnTitle {
+    ToDo = 'To Do',
+    InProgress = 'In Progress',
+    Done = 'Done'
+}

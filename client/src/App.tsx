@@ -1,6 +1,6 @@
 import { Content } from 'antd/es/layout/layout'
 import { useAppSelector } from './hooks/store'
-import SearchWrapper from './components/SearchWrapper'
+import Header from './components/Header'
 import LoadingScreen from './components/LoadingScreen'
 import BoardModal from './components/BoardModal'
 import Board from './components/Board'
@@ -12,7 +12,7 @@ function App() {
 
     return (
         <Content style={{ padding: '0 18vw' }}>
-            <SearchWrapper />
+            <Header />
             {isLoading ? <LoadingScreen /> : board ? <Board /> : <BoardPlaceholder />}
 
             <BoardModal />

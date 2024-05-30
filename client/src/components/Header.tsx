@@ -2,7 +2,7 @@ import AddBoardBtn from './AddBoardBtn'
 import LoadBoardBtn from './LoadBoardBtn'
 import Search from './Search'
 
-export default function SearchWrapper() {
+export default function Header() {
     return (
         <div
             style={{
