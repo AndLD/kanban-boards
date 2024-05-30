@@ -1,19 +1,25 @@
 import { ObjectId } from 'mongodb'
 import { ID } from '../utils/types'
-import { entities } from '../utils/constants'
-import { db, dbService, mongoClient } from './db'
-import { IBoardPost, IBoardPostBody, IBoardPutBody } from '../utils/interfaces/boards'
+import { Entity, initialOrder } from '../utils/constants'
+import { boardsCollection, dbService } from './db'
+import {
+    IBoard,
+    IBoardPost,
+    IBoardPostBody,
+    IBoardPutBody,
+    IFetchBoardResponse
+} from '../utils/interfaces/boards'
 import { ErrorHandler } from '../middlewares/ErrorHandler'
 import { tasksService } from './tasks'
 
 async function getBoardWithTasks(id: ID) {
-    const resultCursor = db.collection(entities.BOARDS).aggregate([
+    const resultCursor = boardsCollection.aggregate([
         {
             $match: { _id: new ObjectId(id) }
         },
         {
             $lookup: {
-                from: entities.TASKS,
+                from: Entity.TASKS,
                 pipeline: [
                     {
                         $match: {
@@ -21,12 +27,12 @@ async function getBoardWithTasks(id: ID) {
                         }
                     }
                 ],
-                as: 'tasks'
+                as: Entity.TASKS
             }
         },
         {
             $project: {
-                tasks: '$tasks',
+                tasks: `$${Entity.TASKS}`,
                 _id: 1,
                 name: 1,
                 order: 1
@@ -56,62 +62,60 @@ async function getBoardWithTasks(id: ID) {
         throw new ErrorHandler(404, `Board with id: ${id} not found`)
     }
 
-    return result
+    return result as IFetchBoardResponse
 }
 
 async function addBoard(boardBody: IBoardPostBody) {
     const board: IBoardPost = {
         ...boardBody,
-        order: {
-            ToDo: [],
-            InProgress: [],
-            Done: []
-        }
+        _id: new ObjectId(),
+        order: initialOrder
     }
 
-    const result = await db.collection(entities.BOARDS).insertOne(board)
-    return { _id: result.insertedId, ...board }
+    const result = await boardsCollection.insertOne(board)
+
+    if (!result.acknowledged) {
+        throw new ErrorHandler(500, 'Board was not stored!')
+    }
+
+    return board
 }
 
 function editBoard(id: ID, updates: IBoardPutBody) {
-    return dbService.updateOne(entities.BOARDS, id, updates)
+    return dbService.updateOne(Entity.BOARDS, id, updates) as Promise<IBoard>
 }
 
-async function deleteBoardWithTasks(id: ID) {
-    const session = mongoClient.startSession()
-
-    session.withTransaction(async () => {
-        const result = await db.collection(entities.BOARDS).deleteOne({ _id: new ObjectId(id) })
+function deleteBoardWithTasks(id: ID) {
+    return dbService.withTransaction(async () => {
+        const result = await boardsCollection.deleteOne({ _id: new ObjectId(id) })
         if (!result.deletedCount) {
             throw new ErrorHandler(404, `Board with id: ${id} not found`)
         }
 
         await tasksService.deleteTasksByBoardId(id)
     })
-
-    session.endSession()
 }
 
-async function registerTask(boardId: ID, taskId: ID, initialStatus: string) {
-    const updateResult = await db
-        .collection(entities.BOARDS)
-        .updateOne(
-            { _id: new ObjectId(boardId) },
-            { $push: { [`order.${initialStatus}`]: taskId } }
-        )
+async function registerTask(boardId: ID, taskId: ID) {
+    const updateResult = await boardsCollection.updateOne(
+        { _id: new ObjectId(boardId) },
+        { $push: { [`order.ToDo`]: taskId } }
+    )
 
-    if (!updateResult.modifiedCount) {
+    if (!updateResult.matchedCount) {
         throw new ErrorHandler(404, `Board with id: ${boardId} not found`)
     }
 }
 
-function moveTask(boardId: ID, taskId: ID, oldStatus: string, newStatus: string) {
-    return db
-        .collection(entities.BOARDS)
-        .updateOne(
-            { _id: new ObjectId(boardId) },
-            { $pull: { [`order.${oldStatus}`]: taskId }, $push: { [`order.${newStatus}`]: taskId } }
-        )
+async function unregisterTask(boardId: ID, taskId: ID) {
+    const updateResult = await boardsCollection.updateOne(
+        { _id: new ObjectId(boardId) },
+        { $pull: { 'order.ToDo': taskId, 'order.InProgress': taskId, 'order.Done': taskId } }
+    )
+
+    if (!updateResult.matchedCount) {
+        throw new ErrorHandler(404, `Board with id: ${boardId} not found`)
+    }
 }
 
 export const boardsService = {
@@ -120,5 +124,5 @@ export const boardsService = {
     editBoard,
     deleteBoardWithTasks,
     registerTask,
-    moveTask
+    unregisterTask
 }

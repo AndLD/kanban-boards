@@ -1,18 +1,16 @@
 import { ObjectId } from 'bson'
-import { ID, TaskStatus } from '../types'
+import { ID } from '../types'
 
 export interface ITask {
-    _id: ID
+    _id: ObjectId
     title: string
     description?: string
-    status: TaskStatus
     boardId: ID
 }
 
 export interface ITaskPostBody {
     title: string
     description?: string
-    status: TaskStatus
 }
 
 export interface ITaskPost extends ITaskPostBody {
@@ -23,5 +21,17 @@ export interface ITaskPost extends ITaskPostBody {
 export interface ITaskPutBody {
     title?: string
     description?: string
-    status?: TaskStatus
+}
+
+export interface ITaskDeleteResponse {
+    _id: ID
+}
+
+export type TaskPostParams = {
+    boardId: string
+}
+
+export type TaskMutationParams = {
+    boardId: string
+    id: string
 }

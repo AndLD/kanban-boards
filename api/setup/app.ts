@@ -1,8 +1,7 @@
-import express, { NextFunction, Request, Response } from 'express'
-import cors from 'cors'
+import express from 'express'
+import cors, { CorsOptions } from 'cors'
 import helmet from 'helmet'
 import { loggerMiddleware } from '../middlewares/logger'
-import { ErrorHandler, handleError } from '../middlewares/ErrorHandler'
 
 export function setupApp() {
     const app = express()
@@ -11,8 +10,11 @@ export function setupApp() {
     app.use(express.json())
 
     const whitelist = process.env.WHITELIST_URLS
-    const corsOptions = {
-        origin: function (origin: string, callback: any) {
+    const corsOptions: CorsOptions = {
+        origin: function (
+            origin: string | undefined,
+            callback: (err: Error | null, origin?: boolean) => void
+        ) {
             if (!origin || whitelist?.indexOf(origin) !== -1) {
                 callback(null, true)
             } else {
@@ -21,12 +23,8 @@ export function setupApp() {
         },
         credentials: true
     }
-    app.use(cors(corsOptions as any))
+    app.use(cors(corsOptions))
     app.use(loggerMiddleware)
-
-    app.use((err: ErrorHandler, req: Request, res: Response, next: NextFunction) => {
-        handleError(err, res)
-    })
 
     return app
 }

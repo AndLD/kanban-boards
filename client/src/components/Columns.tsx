@@ -34,7 +34,7 @@ export default function Columns() {
 
         setIsDragging(false)
 
-        // If the destination is null (e.g., dropped outside the droppable area), do nothing
+        // If dropped outside the droppable area, do nothing
         if (!destination) {
             return
         }
@@ -81,11 +81,6 @@ export default function Columns() {
                     [finish]: finishTaskIds
                 }
             }
-
-            const updatedTasks = tasks.map((task) =>
-                task._id === draggableId ? { ...task, status: finish } : task
-            )
-            dispatch(tasksSlice.actions.setTasks(updatedTasks))
 
             dispatch(boardsSlice.actions.setBoard(newBoard))
             putBoard(board._id, {

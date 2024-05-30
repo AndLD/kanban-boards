@@ -15,11 +15,6 @@ export const tasksSchemas = {
             description: {
                 required: false,
                 type: 'string'
-            },
-            status: {
-                required: true,
-                type: 'string',
-                equals: ['ToDo', 'InProgress', 'Done']
             }
         },
         params: {
@@ -36,11 +31,6 @@ export const tasksSchemas = {
             description: {
                 required: false,
                 type: 'string'
-            },
-            status: {
-                required: false,
-                type: 'string',
-                equals: ['ToDo', 'InProgress', 'Done']
             }
         },
         params: {

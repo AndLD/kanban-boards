@@ -6,7 +6,7 @@ import {
     usePutBoardMutation
 } from '../../store/boards.api'
 import { IBoardPostBody, IBoardPutBody, IFetchBoardResponse } from '../../utils/interfaces/boards'
-import { errorNotification } from '../../utils/notifications'
+import { handleError } from '../../utils/notifications'
 import { boardsSlice } from '../../store/boards.reducer'
 import { useAppDispatch, useAppSelector } from '.'
 import { tasksSlice } from '../../store/tasks.reducer'
@@ -19,7 +19,7 @@ export function useFetchBoard(id: string | null) {
 
     useEffect(() => {
         dispatch(boardsSlice.actions.setIsLoading(fetchBoardQuery?.isLoading))
-    }, [fetchBoardQuery?.isLoading])
+    }, [fetchBoardQuery.isLoading])
 
     useEffect(() => {
         if (fetchBoardQuery?.data) {
@@ -28,14 +28,11 @@ export function useFetchBoard(id: string | null) {
             dispatch(boardsSlice.actions.setBoard(board))
             dispatch(tasksSlice.actions.setTasks(tasks))
         }
-    }, [fetchBoardQuery?.data])
+    }, [fetchBoardQuery.data])
 
     useEffect(() => {
-        const errorStatus = (fetchBoardQuery?.error as any)?.originalStatus
-        if (errorStatus) {
-            errorNotification(errorStatus === 404 ? '404 Board not found' : 'Error fetching board')
-        }
-    }, [fetchBoardQuery?.error])
+        handleError(fetchBoardQuery.error, 'Error fetching board')
+    }, [fetchBoardQuery.error])
 
     return fetchBoardQuery.refetch
 }
@@ -48,15 +45,14 @@ export function usePostBoard(callback?: (newBoardId: string) => void) {
     return (body: IBoardPostBody) => {
         postBoardMutation({
             body
-        }).then((value: any) => {
+        }).then((value) => {
             if (value.data) {
                 const board = value?.data
                 dispatch(boardsSlice.actions.setBoard(board))
 
                 callback && callback(board._id)
             } else {
-                const error = value.error?.msg || value.error?.data?.error
-                errorNotification(error, 'Post board request failed')
+                handleError(value.error, 'Post board request failed')
             }
         })
     }
@@ -71,14 +67,13 @@ export function usePutBoard(callback?: () => void) {
         putBoardMutation({
             id,
             body
-        }).then((value: any) => {
+        }).then((value) => {
             if (value.data) {
                 dispatch(boardsSlice.actions.setBoard(value.data))
 
                 callback && callback()
             } else {
-                const error = value.error?.msg || value.error?.data?.error
-                errorNotification(error, 'Edit board request failed')
+                handleError(value.error, 'Edit board request failed')
             }
         })
     }
@@ -92,12 +87,11 @@ export function useDeleteBoard() {
     return (id: string) => {
         deleteBoardMutation({
             id
-        }).then((value: any) => {
+        }).then((value) => {
             if (value.data) {
                 dispatch(boardsSlice.actions.setBoard(null))
             } else {
-                const error = value.error?.msg || value.error?.data?.error
-                errorNotification(error, 'Delete board request failed')
+                handleError(value.error, 'Delete board request failed')
             }
         })
     }

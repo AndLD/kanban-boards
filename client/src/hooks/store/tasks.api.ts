@@ -4,7 +4,7 @@ import {
     usePutTaskMutation
 } from '../../store/tasks.api'
 import { ITaskPostBody, ITaskPutBody } from '../../utils/interfaces/tasks'
-import { errorNotification } from '../../utils/notifications'
+import { errorNotification, handleError } from '../../utils/notifications'
 import { tasksSlice } from '../../store/tasks.reducer'
 import { useAppDispatch, useAppSelector } from '.'
 import { boardsSlice } from '../../store/boards.reducer'
@@ -29,15 +29,14 @@ export function usePostTask(callback?: (newTaskId: string) => void) {
                         ...board,
                         order: {
                             ...board.order,
-                            [task.status]: [...board.order[task.status], task._id]
+                            ToDo: [...board.order.ToDo, task._id]
                         }
                     })
                 )
 
                 callback && callback(task._id)
             } else {
-                const error = (value.error as any)?.msg || (value.error as any)?.data?.error
-                errorNotification(error, 'Post task request failed')
+                handleError(value.error, 'Post task request failed')
             }
         })
     }
@@ -55,7 +54,7 @@ export function usePutTask(callback?: () => void) {
             boardId,
             id,
             body
-        }).then((value: any) => {
+        }).then((value) => {
             if (value.data) {
                 dispatch(
                     tasksSlice.actions.setTasks(
@@ -71,8 +70,7 @@ export function usePutTask(callback?: () => void) {
 
                 callback && callback()
             } else {
-                const error = value.error?.msg || value.error?.data?.error
-                errorNotification(error, 'Edit task request failed')
+                handleError(value.error, 'Edit task request failed')
             }
         })
     }
@@ -93,8 +91,7 @@ export function useDeleteTask() {
             if (value.data) {
                 dispatch(tasksSlice.actions.setTasks(tasks.filter((task) => task._id !== id)))
             } else {
-                const error = (value.error as any)?.msg || (value.error as any)?.data?.error
-                errorNotification(error, 'Delete task request failed')
+                handleError(value.error, 'Delete task request failed')
             }
         })
     }

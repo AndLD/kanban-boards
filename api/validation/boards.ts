@@ -7,6 +7,9 @@ const params = {
 }
 
 export const boardsSchemas = {
+    getOne: {
+        params
+    },
     post: {
         body: {
             _allowedProps: ['name'],

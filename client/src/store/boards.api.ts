@@ -6,10 +6,10 @@ import {
     IBoard,
     IFetchBoardResponse
 } from '../utils/interfaces/boards'
-import { API_URL } from '../utils/constants'
+import { API_URL, Entity } from '../utils/constants'
 
 export const boardsApi = createApi({
-    reducerPath: 'boards/api',
+    reducerPath: `${Entity.BOARDS}/api`,
     baseQuery: fetchBaseQuery({
         baseUrl: API_URL
     }),
@@ -26,15 +26,13 @@ export const boardsApi = createApi({
                 body
             })
         }),
-        putBoard: builder.mutation<IBoard, { id: string; body: IBoardPutBody }>(
-            {
-                query: ({ id, body }) => ({
-                    method: 'PUT',
-                    url: `/api/boards/${id}`,
-                    body
-                })
-            }
-        ),
+        putBoard: builder.mutation<IBoard, { id: string; body: IBoardPutBody }>({
+            query: ({ id, body }) => ({
+                method: 'PUT',
+                url: `/api/boards/${id}`,
+                body
+            })
+        }),
         deleteBoard: builder.mutation<IBoardDeleteResponse, { id: string }>({
             query: ({ id }) => ({
                 method: 'DELETE',
