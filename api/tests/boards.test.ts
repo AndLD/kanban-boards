@@ -114,6 +114,22 @@ describe('Boards API', () => {
         expect(response.status).toBe(400)
     })
 
+    test("POST /boards - 'name' is empty string", async () => {
+        const newBoard = { name: '' }
+
+        const response = await request(app).post('/boards').send(newBoard)
+
+        expect(response.status).toBe(400)
+    })
+
+    test("POST /boards - 'name' too long", async () => {
+        const newBoard = { name: 'a'.repeat(101) } // Name too long
+
+        const response = await request(app).post('/boards').send(newBoard)
+
+        expect(response.status).toBe(400)
+    })
+
     test('POST /boards - no extra fields', async () => {
         const newBoard = { name: 'New Board', a: 1, b: 'abc' } // Extra fields
 
@@ -148,6 +164,15 @@ describe('Boards API', () => {
         expect(boardInDb?.order).toEqual(initialOrder)
     })
 
+    test('PUT /boards/:id - invalid data type', async () => {
+        const boardId = new ObjectId()
+        const updatedBoard = { name: 123 } // Invalid data type for 'name' field
+
+        const response = await request(app).put(`/boards/${boardId}`).send(updatedBoard)
+
+        expect(response.status).toBe(400)
+    })
+
     test('PUT /boards/:id - missing all fields', async () => {
         const boardId = new ObjectId()
         const updatedBoard = {} // Missing all fields
@@ -157,9 +182,18 @@ describe('Boards API', () => {
         expect(response.status).toBe(400)
     })
 
-    test('PUT /boards/:id - invalid data type', async () => {
+    test("PUT /boards/:id - 'name' is empty", async () => {
         const boardId = new ObjectId()
-        const updatedBoard = { name: 123 } // Invalid data type for 'name' field
+        const updatedBoard = { name: '' }
+
+        const response = await request(app).put(`/boards/${boardId}`).send(updatedBoard)
+
+        expect(response.status).toBe(400)
+    })
+
+    test("PUT /boards/:id - 'name' too long", async () => {
+        const boardId = new ObjectId()
+        const updatedBoard = { name: 'a'.repeat(101) } // Name too long
 
         const response = await request(app).put(`/boards/${boardId}`).send(updatedBoard)
 

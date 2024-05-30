@@ -15,7 +15,9 @@ export const boardsSchemas = {
             _allowedProps: ['name'],
             name: {
                 required: true,
-                type: 'string'
+                type: 'string',
+                maxStringLength: 100,
+                minStringLength: 1
             }
         }
     },
@@ -24,7 +26,9 @@ export const boardsSchemas = {
             _allowedProps: ['name', 'order'],
             name: {
                 required: false,
-                type: 'string'
+                type: 'string',
+                maxStringLength: 100,
+                minStringLength: 1
             },
             order: {
                 required: false,

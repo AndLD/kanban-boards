@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import BoardColumn from './BoardColumn'
+import Column from './Column'
 import { ID } from '../utils/types'
 import { ITask } from '../utils/interfaces/tasks'
 import Task from './Task'
@@ -48,13 +48,12 @@ export default function Columns({ isDragging }: IProps) {
                 justifyContent: 'space-between'
             }}
         >
-            {board &&
-                Object.keys(board.order).map((key, i) => (
-                    <BoardColumn key={key} columnKey={key} title={ColumnTitle[key]}>
-                        {renderTasks(key)}
-                        {!isDragging && key === 'ToDo' && <AddTaskBtn />}
-                    </BoardColumn>
-                ))}
+            {Object.keys(board.order).map((key) => (
+                <Column key={key} columnKey={key} title={ColumnTitle[key]}>
+                    {renderTasks(key)}
+                    {!isDragging && key === 'ToDo' && <AddTaskBtn />}
+                </Column>
+            ))}
         </div>
     )
 }
