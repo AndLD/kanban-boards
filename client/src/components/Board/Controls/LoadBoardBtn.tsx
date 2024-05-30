@@ -30,7 +30,7 @@ export default function LoadBoardBtn() {
     }
 
     return (
-        <Button style={{ width: 150, fontSize: 20, height: 50 }} onClick={onLoadClick}>
+        <Button className="search-btn" onClick={onLoadClick}>
             Load
         </Button>
     )

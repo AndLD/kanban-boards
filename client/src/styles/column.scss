@@ -1,0 +1,9 @@
+.columns {
+    display: flex;
+    justify-content: space-between;
+
+    .column-title {
+        text-align: center;
+        padding-bottom: 5px;
+    }
+}

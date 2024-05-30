@@ -26,10 +26,7 @@
     background: #555;
 }
 
-.card {
-    width: 90%;
-    height: 200px;
-    border-radius: 10;
-    background-color: white;
-    margin: 20px 20px 0 20px;
-}
+@import url(./search.scss);
+@import url(./board.scss);
+@import url(./column.scss);
+@import url(./task.scss);

@@ -8,11 +8,7 @@ interface IProps {
 
 export default function TaskControls({ task }: IProps) {
     return (
-        <div
-            style={{
-                textAlign: 'right'
-            }}
-        >
+        <div className="task-controls">
             <EditTaskBtn task={task} />
             <DeleteTaskBtn taskId={task._id} />
         </div>

@@ -1,0 +1,27 @@
+.tasks-scrollable {
+    min-height: 65vh;
+    max-height: 65vh;
+    width: 20vw;
+    background: lightgray;
+    overflow-y: scroll;
+
+    .tasks {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        margin-bottom: 20;
+
+        .task-card {
+            width: 90%;
+            height: 200px;
+            background-color: white;
+            margin: 20px 20px 0 20px;
+            border-radius: 0px;
+
+            .task-controls {
+                text-align: right;
+            }
+        }
+    }
+}

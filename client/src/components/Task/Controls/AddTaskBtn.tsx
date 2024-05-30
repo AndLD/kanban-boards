@@ -8,7 +8,7 @@ export default function AddTaskBtn() {
 
     return (
         <Button
-            className="card"
+            className="task-card"
             icon={<PlusOutlined style={{ fontSize: 40 }} />}
             style={{
                 width: '90%',

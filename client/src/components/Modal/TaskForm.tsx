@@ -9,7 +9,6 @@ export default function TaskForm({ form }: IProps) {
     return (
         <Form form={form}>
             <Form.Item
-                style={{ width: '100%' }}
                 name="title"
                 rules={[
                     {
@@ -21,12 +20,7 @@ export default function TaskForm({ form }: IProps) {
                 <Input placeholder="Title" maxLength={100} />
             </Form.Item>
             <Form.Item name="description">
-                <Input.TextArea
-                    style={{ height: 100 }}
-                    placeholder="Description"
-                    showCount={true}
-                    maxLength={200}
-                />
+                <Input.TextArea placeholder="Description" showCount={true} maxLength={200} />
             </Form.Item>
         </Form>
     )

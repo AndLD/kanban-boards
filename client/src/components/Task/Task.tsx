@@ -20,7 +20,7 @@ export default function Task({ index, task }: { index: number; task: ITask }) {
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
-                    className="card"
+                    className="task-card"
                 >
                     <div style={{ margin: 30 }}>
                         <Title level={4} style={{ fontWeight: 'bold' }}>
