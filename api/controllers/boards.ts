@@ -1,8 +1,4 @@
 import { NextFunction, Request, Response } from 'express'
-import { db } from '../services/db'
-import { ObjectId } from 'mongodb'
-import { ErrorHandler } from '../middlewares/ErrorHandler'
-import { entities } from '../utils/constants'
 import { boardsService } from '../services/boards'
 
 async function getOneById(req: Request, res: Response, next: NextFunction) {

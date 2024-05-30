@@ -4,7 +4,6 @@ export interface ITask {
     _id: ID
     title: string
     description?: string
-    createdAt: number
     status: TaskStatus
     boardId: ID
 }
@@ -16,14 +15,13 @@ export interface ITaskPostBody {
 }
 
 export interface ITaskPost extends ITaskPostBody {
-    createdAt: number
     boardId: ID
 }
 
 export interface ITaskPutBody {
     title?: string
     description?: string
-    status: TaskStatus
+    status?: TaskStatus
 }
 
 export interface ITaskDeleteResponse {

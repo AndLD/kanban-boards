@@ -6,11 +6,7 @@ export type TaskStatus = 'ToDo' | 'InProgress' | 'Done'
 
 export type Collection = 'boards' | 'tasks'
 
-export type Controller = (
-    req: Request,
-    res: Response,
-    next?: NextFunction
-) => any
+export type Controller = (req: Request, res: Response, next?: NextFunction) => any
 
 export type Error = {
     msg: string

@@ -13,7 +13,7 @@ async function post(req: Request, res: Response, next: NextFunction) {
 
 async function put(req: Request, res: Response, next: NextFunction) {
     try {
-        const result = await tasksService.editTask(req.params.id, req.body)
+        const result = await tasksService.editTask(req.params.boardId, req.params.id, req.body)
 
         res.json(result)
     } catch (error) {

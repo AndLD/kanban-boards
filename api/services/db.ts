@@ -1,4 +1,4 @@
-import { MongoClient, Db, ObjectId } from 'mongodb'
+import { MongoClient, Db, ObjectId, WithTransactionCallback } from 'mongodb'
 import { getLogger } from '../utils/logger'
 import { Collection, ID } from '../utils/types'
 import { ITaskPutBody } from '../utils/interfaces/tasks'
@@ -29,14 +29,28 @@ async function updateOne(entity: Collection, id: ID, updates: IBoardPutBody | IT
         .findOneAndUpdate({ _id: new ObjectId(id) }, { $set: updates }, { returnDocument: 'after' })
 
     if (!updateResult.value) {
-        throw new ErrorHandler(404, `${entity === entities.BOARDS ? 'Board' : 'Task'} with id: ${id} not found`)
+        throw new ErrorHandler(
+            404,
+            `${entity === entities.BOARDS ? 'Board' : 'Task'} with id: ${id} not found`
+        )
     }
 
     return updateResult.value
 }
 
+async function withTransaction(fn: WithTransactionCallback<void>) {
+    const session = mongoClient.startSession()
+
+    const result = await session.withTransaction(fn)
+
+    session.endSession()
+
+    return result
+}
+
 export const dbService = {
     init,
     close,
-    updateOne
+    updateOne,
+    withTransaction
 }

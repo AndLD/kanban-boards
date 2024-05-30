@@ -7,26 +7,36 @@ import { ITaskPostBody, ITaskPutBody } from '../../utils/interfaces/tasks'
 import { errorNotification } from '../../utils/notifications'
 import { tasksSlice } from '../../store/tasks.reducer'
 import { useAppDispatch, useAppSelector } from '.'
+import { boardsSlice } from '../../store/boards.reducer'
 
 export function usePostTask(callback?: (newTaskId: string) => void) {
     const dispatch = useAppDispatch()
-    const boardId = useAppSelector((state) => state.boardsReducer.board?._id)
+    const board = useAppSelector((state) => state.boardsReducer.board)
     const tasks = useAppSelector((state) => state.tasksReducer.tasks)
 
     const [postTaskMutation] = usePostTaskMutation()
 
     return (body: ITaskPostBody) => {
         postTaskMutation({
-            boardId,
+            boardId: board._id,
             body
-        }).then((value: any) => {
+        }).then((value) => {
             if (value.data) {
-                const task = value?.data
+                const task = value.data
                 dispatch(tasksSlice.actions.setTasks([...tasks, task]))
+                dispatch(
+                    boardsSlice.actions.setBoard({
+                        ...board,
+                        order: {
+                            ...board.order,
+                            [task.status]: [...board.order[task.status], task._id]
+                        }
+                    })
+                )
 
                 callback && callback(task._id)
             } else {
-                const error = value.error?.msg || value.error?.data?.error
+                const error = (value.error as any)?.msg || (value.error as any)?.data?.error
                 errorNotification(error, 'Post task request failed')
             }
         })
@@ -79,15 +89,11 @@ export function useDeleteTask() {
         deleteTaskMutation({
             boardId,
             id
-        }).then((value: any) => {
+        }).then((value) => {
             if (value.data) {
-                dispatch(
-                    tasksSlice.actions.setTasks(
-                        tasks.filter((task) => task._id !== id)
-                    )
-                )
+                dispatch(tasksSlice.actions.setTasks(tasks.filter((task) => task._id !== id)))
             } else {
-                const error = value.error?.msg || value.error?.data?.error
+                const error = (value.error as any)?.msg || (value.error as any)?.data?.error
                 errorNotification(error, 'Delete task request failed')
             }
         })
