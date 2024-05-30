@@ -1,7 +1,7 @@
 import { PlusOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
-import { useAppDispatch } from '../hooks/store'
-import { tasksSlice } from '../store/tasks.reducer'
+import { useAppDispatch } from '../../../hooks/store'
+import { tasksSlice } from '../../../store/tasks.reducer'
 
 export default function AddTaskBtn() {
     const dispatch = useAppDispatch()

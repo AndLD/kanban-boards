@@ -10,11 +10,14 @@ export const tasksSchemas = {
             _allowedProps: ['title', 'description', 'status'],
             title: {
                 required: true,
-                type: 'string'
+                type: 'string',
+                maxStringLength: 100,
+                minStringLength: 1
             },
             description: {
                 required: false,
-                type: 'string'
+                type: 'string',
+                maxStringLength: 200
             }
         },
         params: {
@@ -26,11 +29,14 @@ export const tasksSchemas = {
             _allowedProps: ['title', 'description', 'status'],
             title: {
                 required: false,
-                type: 'string'
+                type: 'string',
+                maxStringLength: 100,
+                minStringLength: 1
             },
             description: {
                 required: false,
-                type: 'string'
+                type: 'string',
+                maxStringLength: 200
             }
         },
         params: {

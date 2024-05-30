@@ -86,6 +86,30 @@ describe('Tasks API', () => {
         expect(response.status).toBe(400)
     })
 
+    test("POST /boards/:boardId/tasks - 'title' is empty", async () => {
+        const newTask = { title: '', description: 'Task Description' }
+
+        const response = await request(app).post(`/boards/${boardId}/tasks`).send(newTask)
+
+        expect(response.status).toBe(400)
+    })
+
+    test("POST /boards/:boardId/tasks - 'title' too long", async () => {
+        const newTask = { title: 'a'.repeat(101), description: 'Task Description' } // Title too long
+
+        const response = await request(app).post(`/boards/${boardId}/tasks`).send(newTask)
+
+        expect(response.status).toBe(400)
+    })
+
+    test("POST /boards/:boardId/tasks - 'description' too long", async () => {
+        const newTask = { title: 'New Task', description: 'a'.repeat(201) } // Description too long
+
+        const response = await request(app).post(`/boards/${boardId}/tasks`).send(newTask)
+
+        expect(response.status).toBe(400)
+    })
+
     test('POST /boards/:boardId/tasks - invalid boardId', async () => {
         const newTask = { title: 'New Task', description: 'Task Description' }
         const invalidBoardId = 'invalidObjectId' // Invalid ObjectId format
@@ -134,6 +158,39 @@ describe('Tasks API', () => {
     test('PUT /boards/:boardId/tasks/:id - invalid data type', async () => {
         const taskId = new ObjectId()
         const updatedTask = { title: 123 } // Invalid data type for 'title' field
+
+        const response = await request(app)
+            .put(`/boards/${boardId}/tasks/${taskId}`)
+            .send(updatedTask)
+
+        expect(response.status).toBe(400)
+    })
+
+    test("PUT /boards/:boardId/tasks/:id - 'title' is empty", async () => {
+        const taskId = new ObjectId()
+        const updatedTask = { title: '', description: 'Updated Description' }
+
+        const response = await request(app)
+            .put(`/boards/${boardId}/tasks/${taskId}`)
+            .send(updatedTask)
+
+        expect(response.status).toBe(400)
+    })
+
+    test("PUT /boards/:boardId/tasks/:id - 'title' too long", async () => {
+        const taskId = new ObjectId()
+        const updatedTask = { title: 'a'.repeat(101), description: 'Updated Description' } // Title too long
+
+        const response = await request(app)
+            .put(`/boards/${boardId}/tasks/${taskId}`)
+            .send(updatedTask)
+
+        expect(response.status).toBe(400)
+    })
+
+    test("PUT /boards/:boardId/tasks/:id - 'description' too long", async () => {
+        const taskId = new ObjectId()
+        const updatedTask = { title: 'Updated Task', description: 'a'.repeat(201) } // Description too long
 
         const response = await request(app)
             .put(`/boards/${boardId}/tasks/${taskId}`)
