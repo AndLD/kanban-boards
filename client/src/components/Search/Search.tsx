@@ -1,6 +1,6 @@
 import { Input } from 'antd'
-import { useAppDispatch, useAppSelector } from '../hooks/store'
-import { boardsSlice } from '../store/boards.reducer'
+import { useAppDispatch, useAppSelector } from '../../hooks/store'
+import { boardsSlice } from '../../store/boards.reducer'
 
 export default function Search() {
     const dispatch = useAppDispatch()
@@ -13,10 +13,10 @@ export default function Search() {
 
     return (
         <Input
+            className="search"
             value={boardId}
             onChange={onChange}
             placeholder="Enter a board ID here..."
-            style={{ paddingLeft: 20, fontSize: 20, height: 50 }}
         />
     )
 }

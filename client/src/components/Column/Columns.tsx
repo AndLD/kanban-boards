@@ -42,12 +42,7 @@ export default function Columns({ isDragging }: IProps) {
     }
 
     return (
-        <div
-            style={{
-                display: 'flex',
-                justifyContent: 'space-between'
-            }}
-        >
+        <div className="columns">
             {Object.keys(board.order).map((key) => (
                 <Column key={key} columnKey={key} title={ColumnTitle[key]}>
                     {renderTasks(key)}

@@ -6,13 +6,7 @@ interface IProps {
 
 export default function ColumnTitle({ title }: IProps) {
     return (
-        <Title
-            level={2}
-            style={{
-                textAlign: 'center',
-                paddingBottom: '5px'
-            }}
-        >
+        <Title className="column-title" level={2}>
             {title}
         </Title>
     )

@@ -6,26 +6,8 @@ interface IProps {
 
 export default function Tasks({ children }: IProps) {
     return (
-        <div
-            style={{
-                minHeight: '65vh',
-                maxHeight: '65vh',
-                width: '20vw',
-                background: 'lightgray',
-                overflowY: 'scroll'
-            }}
-        >
-            <div
-                style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexDirection: 'column',
-                    marginBottom: 20
-                }}
-            >
-                {...children}
-            </div>
+        <div className="tasks-scrollable">
+            <div className="tasks">{...children}</div>
         </div>
     )
 }

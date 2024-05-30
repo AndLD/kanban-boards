@@ -9,7 +9,6 @@ export default function BoardForm({ form }: IProps) {
     return (
         <Form form={form}>
             <Form.Item
-                style={{ width: '100%' }}
                 name="name"
                 rules={[
                     {

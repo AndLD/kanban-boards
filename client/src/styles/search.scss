@@ -1,0 +1,19 @@
+.search-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    height: 15vh;
+
+    .search {
+        padding-left: 20px;
+        font-size: 20px;
+        height: 50px;
+    }
+
+    .search-btn {
+        width: 150px;
+        font-size: 20px;
+        height: 50px;
+    }
+}

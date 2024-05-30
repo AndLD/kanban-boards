@@ -7,7 +7,7 @@ export default function AddBoardBtn() {
     const onNewClick = () => dispatch(boardsSlice.actions.setIsModalVisible(true))
 
     return (
-        <Button style={{ width: 150, fontSize: 20, height: 50 }} onClick={onNewClick}>
+        <Button className="search-btn" onClick={onNewClick}>
             New
         </Button>
     )
