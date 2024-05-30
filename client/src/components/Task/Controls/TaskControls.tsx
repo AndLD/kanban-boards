@@ -1,4 +1,4 @@
-import { ITask } from '../utils/interfaces/tasks'
+import { ITask } from '../../../utils/interfaces/tasks'
 import DeleteTaskBtn from './DeleteTaskBtn'
 import EditTaskBtn from './EditTaskBtn'
 

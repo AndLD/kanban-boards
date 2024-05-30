@@ -1,6 +1,6 @@
-import { useAppSelector } from '../hooks/store'
+import { useAppSelector } from '../../hooks/store'
 import Title from 'antd/es/typography/Title'
-import BoardControls from './BoardControls'
+import BoardControls from './Controls/BoardControls'
 
 export default function BoardName() {
     const board = useAppSelector((state) => state.boardsReducer.board)

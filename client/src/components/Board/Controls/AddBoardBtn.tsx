@@ -1,6 +1,6 @@
 import { Button } from 'antd'
-import { boardsSlice } from '../store/boards.reducer'
-import { useAppDispatch } from '../hooks/store'
+import { boardsSlice } from '../../../store/boards.reducer'
+import { useAppDispatch } from '../../../hooks/store'
 
 export default function AddBoardBtn() {
     const dispatch = useAppDispatch()

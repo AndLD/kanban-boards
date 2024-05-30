@@ -1,11 +1,11 @@
 import { Content } from 'antd/es/layout/layout'
 import { useAppSelector } from './hooks/store'
 import Header from './components/Header'
-import LoadingScreen from './components/LoadingScreen'
-import BoardModal from './components/BoardModal'
-import Board from './components/Board'
-import TaskModal from './components/TaskModal'
-import BoardPlaceholder from './components/BoardPlaceholder'
+import LoadingScreen from './components/Board/LoadingScreen'
+import BoardModal from './components/Modals/BoardModal'
+import Board from './components/Board/Board'
+import TaskModal from './components/Modals/TaskModal'
+import BoardPlaceholder from './components/Board/BoardPlaceholder'
 
 function App() {
     const { isLoading, board } = useAppSelector((state) => state.boardsReducer)

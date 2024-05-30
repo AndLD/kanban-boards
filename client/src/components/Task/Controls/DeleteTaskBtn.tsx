@@ -1,7 +1,7 @@
 import { DeleteOutlined } from '@ant-design/icons'
 import { Button, Popconfirm } from 'antd'
-import { ID } from '../utils/types'
-import { useDeleteTask } from '../hooks/store/tasks.api'
+import { ID } from '../../../utils/types'
+import { useDeleteTask } from '../../../hooks/store/tasks.api'
 
 interface IProps {
     taskId: ID

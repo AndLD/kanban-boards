@@ -1,5 +1,4 @@
-import AddBoardBtn from './AddBoardBtn'
-import LoadBoardBtn from './LoadBoardBtn'
+import HeaderBoardControls from './Board/Controls/HeaderBoardControls'
 import Search from './Search'
 
 export default function Header() {
@@ -14,8 +13,7 @@ export default function Header() {
             }}
         >
             <Search />
-            <LoadBoardBtn />
-            <AddBoardBtn />
+            <HeaderBoardControls />
         </div>
     )
 }

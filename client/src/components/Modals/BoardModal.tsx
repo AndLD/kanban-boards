@@ -1,6 +1,6 @@
-import { usePostBoard, usePutBoard } from '../hooks/store/boards.api'
-import { successNotification } from '../utils/notifications'
-import { Entity } from '../utils/constants'
+import { usePostBoard, usePutBoard } from '../../hooks/store/boards.api'
+import { successNotification } from '../../utils/notifications'
+import { Entity } from '../../utils/constants'
 import Modal from './Modal'
 
 export default function TaskModal() {

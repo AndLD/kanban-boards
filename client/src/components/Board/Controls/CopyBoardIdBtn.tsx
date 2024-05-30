@@ -1,7 +1,7 @@
 import { Button, Tooltip } from 'antd'
 import { CopyOutlined } from '@ant-design/icons'
-import { useAppSelector } from '../hooks/store'
-import { successNotification } from '../utils/notifications'
+import { useAppSelector } from '../../../hooks/store'
+import { successNotification } from '../../../utils/notifications'
 
 export default function CopyBoardIdBtn() {
     const boardId = useAppSelector((state) => state.boardsReducer.board._id)

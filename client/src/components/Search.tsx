@@ -14,9 +14,9 @@ export default function Search() {
     return (
         <Input
             value={boardId}
+            onChange={onChange}
             placeholder="Enter a board ID here..."
             style={{ paddingLeft: 20, fontSize: 20, height: 50 }}
-            onChange={onChange}
         />
     )
 }

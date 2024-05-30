@@ -1,5 +1,5 @@
 import BoardName from './BoardName'
-import ColumnsWrapper from './ColumnsWrapper'
+import ColumnsWrapper from '../Column/ColumnsWrapper'
 
 export default function Board() {
     return (

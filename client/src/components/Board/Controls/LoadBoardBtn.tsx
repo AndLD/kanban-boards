@@ -1,9 +1,9 @@
 import { Button } from 'antd'
-import { boardsSlice } from '../store/boards.reducer'
+import { boardsSlice } from '../../../store/boards.reducer'
 import { useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from '../hooks/store'
-import { errorNotification } from '../utils/notifications'
-import { useFetchBoard } from '../hooks/store/boards.api'
+import { useAppDispatch, useAppSelector } from '../../../hooks/store'
+import { errorNotification } from '../../../utils/notifications'
+import { useFetchBoard } from '../../../hooks/store/boards.api'
 
 export default function LoadBoardBtn() {
     const dispatch = useAppDispatch()

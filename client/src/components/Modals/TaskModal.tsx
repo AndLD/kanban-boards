@@ -1,7 +1,7 @@
-import { usePostTask, usePutTask } from '../hooks/store/tasks.api'
-import { successNotification } from '../utils/notifications'
+import { usePostTask, usePutTask } from '../../hooks/store/tasks.api'
+import { successNotification } from '../../utils/notifications'
 import Modal from './Modal'
-import { Entity } from '../utils/constants'
+import { Entity } from '../../utils/constants'
 
 export default function TaskModal() {
     const postTask = usePostTask()

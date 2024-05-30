@@ -1,5 +1,5 @@
 import { Form, FormInstance, Input } from 'antd'
-import { IBoardPostBody } from '../utils/interfaces/boards'
+import { IBoardPostBody } from '../../utils/interfaces/boards'
 
 interface IProps {
     form: FormInstance<IBoardPostBody>

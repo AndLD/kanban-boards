@@ -1,8 +1,8 @@
-import { ITask } from '../utils/interfaces/tasks'
+import { ITask } from '../../utils/interfaces/tasks'
 import { Draggable } from 'react-beautiful-dnd'
 import Title from 'antd/es/typography/Title'
 import Paragraph from 'antd/es/typography/Paragraph'
-import TaskControls from './TaskControls'
+import TaskControls from './Controls/TaskControls'
 
 export default function Task({ index, task }: { index: number; task: ITask }) {
     const title = task.title.length > 25 ? task.title.slice(0, 25) + '...' : task.title

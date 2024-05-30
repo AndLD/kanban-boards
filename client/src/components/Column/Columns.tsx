@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import Column from './Column'
-import { ID } from '../utils/types'
-import { ITask } from '../utils/interfaces/tasks'
-import Task from './Task'
-import AddTaskBtn from './AddTaskBtn'
-import { ColumnTitle } from '../utils/constants'
-import { useAppSelector } from '../hooks/store'
+import { ID } from '../../utils/types'
+import { ITask } from '../../utils/interfaces/tasks'
+import Task from '../Task/Task'
+import AddTaskBtn from '../Task/Controls/AddTaskBtn'
+import { ColumnTitle } from '../../utils/constants'
+import { useAppSelector } from '../../hooks/store'
 
 interface IProps {
     isDragging: boolean

@@ -1,7 +1,7 @@
 import { EditOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
-import { boardsSlice } from '../store/boards.reducer'
-import { useAppDispatch, useAppSelector } from '../hooks/store'
+import { boardsSlice } from '../../../store/boards.reducer'
+import { useAppDispatch, useAppSelector } from '../../../hooks/store'
 
 export default function EditBoardBtn() {
     const dispatch = useAppDispatch()

@@ -1,5 +1,5 @@
 import { Form, FormInstance, Input } from 'antd'
-import { ITaskPostBody } from '../utils/interfaces/tasks'
+import { ITaskPostBody } from '../../utils/interfaces/tasks'
 
 interface IProps {
     form: FormInstance<ITaskPostBody>

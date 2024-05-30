@@ -1,7 +1,7 @@
 import { DeleteOutlined } from '@ant-design/icons'
 import { Button, Popconfirm } from 'antd'
-import { useAppSelector } from '../hooks/store'
-import { useDeleteBoard } from '../hooks/store/boards.api'
+import { useAppSelector } from '../../../hooks/store'
+import { useDeleteBoard } from '../../../hooks/store/boards.api'
 
 export default function DeleteBoardBtn() {
     const boardId = useAppSelector((state) => state.boardsReducer.board._id)

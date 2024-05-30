@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 import { Droppable } from 'react-beautiful-dnd'
-import Tasks from './Tasks'
+import Tasks from '../Task/Tasks'
 import ColumnTitle from './ColumnTitle'
 
 export default function Column(props: {

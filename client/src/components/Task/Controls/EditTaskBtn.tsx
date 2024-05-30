@@ -1,8 +1,8 @@
 import { EditOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
-import { tasksSlice } from '../store/tasks.reducer'
-import { ITask } from '../utils/interfaces/tasks'
-import { useAppDispatch } from '../hooks/store'
+import { tasksSlice } from '../../../store/tasks.reducer'
+import { ITask } from '../../../utils/interfaces/tasks'
+import { useAppDispatch } from '../../../hooks/store'
 
 interface IProps {
     task: ITask

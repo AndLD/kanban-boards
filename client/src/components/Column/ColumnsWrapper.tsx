@@ -1,8 +1,8 @@
-import { useAppDispatch, useAppSelector } from '../hooks/store'
+import { useAppDispatch, useAppSelector } from '../../hooks/store'
 import { DragDropContext } from 'react-beautiful-dnd'
-import { boardsSlice } from '../store/boards.reducer'
+import { boardsSlice } from '../../store/boards.reducer'
 import { useState } from 'react'
-import { usePutBoard } from '../hooks/store/boards.api'
+import { usePutBoard } from '../../hooks/store/boards.api'
 import Columns from './Columns'
 
 export default function ColumnsWrapper() {
