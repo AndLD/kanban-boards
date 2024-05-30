@@ -1,7 +1,7 @@
 {
     "apps": [
         {
-            "name": "node-server",
+            "name": "kanban-boards-node",
             "script": "npm",
             "args": ["run", "prod"],
             "cwd": "./api",
@@ -14,7 +14,7 @@
             }
         },
         {
-            "name": "react-app",
+            "name": "kanban-boards-react",
             "script": "npm",
             "args": ["run", "prod"],
             "cwd": "./client",
