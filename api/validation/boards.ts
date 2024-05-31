@@ -38,6 +38,16 @@ export const boardsSchemas = {
                         required: false,
                         type: 'array',
                         arrayElementType: 'string'
+                    },
+                    InProgress: {
+                        required: false,
+                        type: 'array',
+                        arrayElementType: 'string'
+                    },
+                    Done: {
+                        required: false,
+                        type: 'array',
+                        arrayElementType: 'string'
                     }
                 }
             }

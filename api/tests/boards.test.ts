@@ -164,13 +164,29 @@ describe('Boards API', () => {
         expect(boardInDb?.order).toEqual(initialOrder)
     })
 
-    test('PUT /boards/:id - invalid data type', async () => {
+    test("PUT /boards/:id - invalid 'name' data type", async () => {
         const boardId = new ObjectId()
         const updatedBoard = { name: 123 } // Invalid data type for 'name' field
 
         const response = await request(app).put(`/boards/${boardId}`).send(updatedBoard)
 
         expect(response.status).toBe(400)
+    })
+
+    test("PUT /boards/:id - invalid 'order' data type", async () => {
+        const updateBoard = async (body: any) =>
+            await request(app).put(`/boards/${boardId}`).send(body)
+
+        const boardId = new ObjectId()
+        let updatedBoard: { order: any } = { order: 123 }
+        let response = await updateBoard(updatedBoard)
+        expect(response.status).toBe(400)
+
+        for (const key of ['ToDo', 'InProgress', 'Done']) {
+            updatedBoard.order = { [key]: 123 }
+            response = await updateBoard(updatedBoard)
+            expect(response.status).toBe(400)
+        }
     })
 
     test('PUT /boards/:id - missing all fields', async () => {
